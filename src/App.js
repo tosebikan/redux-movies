@@ -4,22 +4,34 @@ import logo from './logo.svg';
 import './App.css';
 import Header from './components/Header';
 import Movies from './containers/Movies';
-//import Loading from './components/Loading';
+import Loading from './components/Loading';
+import {fetchMovies} from './reducers/movieReducer';
 
 
 
 
 class App extends Component {
+
+  componentDidMount(){
+
+    this.props.fetchMovies()
+    console.log(this.props)
+  }
   render(){
+
+    if(this.props.loading){
+      return <Loading />
+    }
     const {movies} = this.props
+    console.log('movies',movies)
   return (
     <div className="App">
       <Header text="Redux-Movies" logo={logo}/>
       <p className="App-Intro">Greatest Movies of All Time</p>
       <div className="movies">
-      {movies.map((movie) => (
-        <div key={movie.title}>
-        <Movies title={movie.title} year={movie.year} poster={movie.Poster}/>
+      {movies.map(movie => (
+        <div key={movie.Poster}>
+        <Movies title={movie.Title} year={movie.Year} poster={movie.Poster}/>
         </div>
       ))}
       </div>
@@ -29,11 +41,16 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.movieReducer.defaultState.movies)
+  console.log(state.movieReducer.loading)
 return{
-  movies: state.movieReducer.defaultState.movies
+  loading: state.movieReducer.loading,
+  movies: state.movieReducer.movies
 }
 }
 
+const mapDispatchToProps = {
+  fetchMovies
+}
 
-export default connect(mapStateToProps)(App);
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
