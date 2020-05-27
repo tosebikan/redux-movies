@@ -1,4 +1,5 @@
 import {FETCH_MOVIES} from '../actions/constants/action-types';
+import {movieKey} from '../env.js';
 
 
 export const apiMiddleware = (store) => (next) => (action) => {
@@ -8,7 +9,7 @@ switch(action.type){
   case FETCH_MOVIES:
   next(action)
   //fetch data from api
-  fetch("http://www.omdbapi.com/?s=%27matrix%27&apikey=63bf4def").then(res => res.json()).then(result => {
+  fetch(`http://www.omdbapi.com/?s=%27matrix%27&apikey=${movieKey}`).then(res => res.json()).then(result => {
     console.log('api', result)
     store.dispatch({
       type: 'SET_MOVIE_DATA',

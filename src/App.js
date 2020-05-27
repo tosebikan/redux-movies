@@ -6,6 +6,9 @@ import Header from './components/Header';
 import Movies from './containers/Movies';
 import Loading from './components/Loading';
 import {fetchMovies} from './reducers/movieReducer';
+import Button from './containers/Button';
+import NewsLoading from './containers/NewsLoading';
+import NewsItem from './containers/NewsItem';
 
 
 
@@ -18,7 +21,6 @@ class App extends Component {
     console.log(this.props)
   }
   render(){
-
     if(this.props.loading){
       return <Loading />
     }
@@ -28,6 +30,12 @@ class App extends Component {
     <div className="App">
       <Header text="Redux-Movies" logo={logo}/>
       <p className="App-Intro">Greatest Movies of All Time</p>
+
+      <Button />
+      <NewsLoading />
+      <NewsItem />
+
+
       <div className="movies">
       {movies.map(movie => (
         <div key={movie.Poster}>
@@ -41,7 +49,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.movieReducer.loading)
+  //console.log(state.movieReducer.loading)
 return{
   loading: state.movieReducer.loading,
   movies: state.movieReducer.movies
